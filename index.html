@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CivicSathi AI 🤖 | Civic Intelligence Platform</title>
+<style>
+:root{
+ --bg:#f6f7fb;--card:#fff;--text:#171b2d;--muted:#72798c;--line:#e7e9f0;
+ --primary:#5c4bdb;--primary2:#8877ef;--green:#159766;--orange:#d88a17;--red:#d94357;
+ --shadow:0 18px 50px rgba(33,39,76,.08)
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.nav{height:72px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 5%;position:sticky;top:0;z-index:20}
+.brand{display:flex;align-items:center;gap:11px}.logo{width:43px;height:43px;border-radius:13px;background:linear-gradient(135deg,var(--primary),var(--primary2));display:grid;place-items:center;font-size:23px;color:white;box-shadow:0 8px 22px #5c4bdb30}.brand b{display:block;font-size:17px}.brand small{color:var(--muted);font-size:11px}
+.online{padding:8px 12px;border-radius:20px;background:#eefaf5;color:var(--green);font-size:11px;font-weight:800;border:1px solid #ccecdf}.online i{display:inline-block;width:7px;height:7px;border-radius:50%;background:#1db679;margin-right:6px}
+.wrap{width:min(1160px,92%);margin:auto}
+.hero{padding:48px 0 28px;display:grid;grid-template-columns:1fr 330px;gap:30px;align-items:center}.eyebrow{font-size:10px;letter-spacing:.17em;color:var(--primary);font-weight:900}.hero h1{font-size:clamp(34px,5vw,60px);line-height:1.02;margin:9px 0 15px;max-width:760px}.hero p{color:var(--muted);line-height:1.75;max-width:730px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}.chip{background:#fff;border:1px solid var(--line);padding:8px 11px;border-radius:20px;font-size:11px}
+.heroPanel{background:linear-gradient(145deg,#5948d7,#8d79ef);color:white;border-radius:26px;padding:28px;box-shadow:0 25px 60px #5948d725}.heroPanel .icon{font-size:50px}.heroPanel h2{margin:14px 0 7px}.heroPanel p{color:#efedff;font-size:13px}
+.grid{display:grid;grid-template-columns:1.12fr .88fr;gap:20px}.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:23px;box-shadow:var(--shadow)}
+.cardHead{display:flex;justify-content:space-between;gap:15px;align-items:flex-start;margin-bottom:21px}.cardHead h2{font-size:20px;margin:4px 0 0}.num{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#efedff;color:var(--primary);font-weight:900;font-size:11px}
+label{display:block;font-size:12px;font-weight:800;margin-bottom:8px}
+textarea{width:100%;min-height:145px;border:1px solid #dfe2eb;border-radius:15px;background:#fbfcff;padding:14px;outline:none;resize:vertical;line-height:1.55;color:var(--text)}textarea:focus{border-color:#9c91ed;box-shadow:0 0 0 4px #efedff}
+.quick{display:flex;flex-wrap:wrap;gap:7px;margin:9px 0 17px}.quick button{border:1px solid var(--line);background:#fff;border-radius:18px;padding:7px 10px;font-size:10px}.quick button:hover{border-color:#9d92ed}
+.upload{border:1px dashed #cbd0dc;border-radius:15px;padding:14px;margin-bottom:13px}.uploadTop{display:flex;justify-content:space-between;gap:12px;align-items:center}.upload strong{font-size:12px}.upload small{color:var(--muted);font-size:10px;display:block;margin-top:4px}.upload input{margin-top:9px;width:100%;font-size:11px}.preview{display:none;max-width:100%;max-height:190px;border-radius:12px;margin-top:10px;object-fit:cover}
+.loc{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--line);border-radius:15px;padding:12px;margin-bottom:13px}.loc b{font-size:12px}.loc small{display:block;color:var(--muted);font-size:10px;margin-top:3px}.btn{border:0;border-radius:12px;padding:11px 14px;font-weight:800;font-size:12px}.primary{width:100%;background:var(--primary);color:#fff}.primary:hover{background:#4a3ac4}.primary:disabled{opacity:.55;cursor:wait}.secondary{background:#f0f2f7;color:#262b3c}.voice{width:100%;margin-top:8px;background:#fff;border:1px solid var(--line)}.status{min-height:17px;color:var(--muted);font-size:10px;margin-top:9px}.error{color:var(--red)}
+.agents{display:flex;flex-direction:column;gap:9px}.agent{display:flex;align-items:center;gap:11px;border:1px solid var(--line);border-radius:14px;padding:12px;transition:.25s}.agent.active{background:#f8f6ff;border-color:#b9b0f1;transform:translateX(3px)}.agent.done{background:#f3fbf7;border-color:#c8eadc}.agentDot{width:29px;height:29px;border-radius:50%;background:#eef0f5;display:grid;place-items:center;font-size:10px;font-weight:900;flex:0 0 auto}.agent b{font-size:11px;display:block}.agent span{font-size:10px;color:var(--muted);display:block;margin-top:3px}
+.hidden{display:none}.result,.dashboard{margin-top:20px}.priority{padding:7px 11px;border-radius:20px;font-size:10px;font-weight:900}.priority.high{background:#fff0f2;color:var(--red)}.priority.medium{background:#fff6e6;color:#a66a0b}.priority.low{background:#ecfaf4;color:var(--green)}
+.resultGrid,.dashboardStats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.stat{border:1px solid var(--line);background:#fafbfc;border-radius:14px;padding:15px}.stat small{display:block;color:var(--muted);font-size:9px}.stat b{display:block;font-size:13px;margin-top:6px}.report{margin-top:12px;border:1px solid var(--line);border-radius:15px;padding:16px}.report h3,.why h3{font-size:12px;margin:0 0 8px}.report p{font-size:12px;color:#4d566a;line-height:1.7;margin:0 0 10px}.meta{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:9px}.why{margin-top:12px;background:#f8f9fc;border-radius:14px;padding:15px}.why ul{margin:0;padding-left:17px;color:#4d566a;font-size:11px;line-height:1.8}
+.dashboardStats .stat b{font-size:25px}.reports{margin-top:13px;display:flex;flex-direction:column;gap:8px}.reportRow{display:grid;grid-template-columns:1.35fr 1fr .55fr .6fr;gap:8px;border:1px solid var(--line);border-radius:12px;padding:12px;font-size:10px;align-items:center}.reportRow b{font-size:11px}.reportRow span{color:var(--muted)}.empty{color:var(--muted);font-size:11px}
+.footer{text-align:center;color:#838a9b;font-size:9px;line-height:1.7;padding:30px 0 50px}
+.toast{position:fixed;right:20px;bottom:20px;background:#171b2d;color:white;border-radius:12px;padding:12px 15px;font-size:11px;opacity:0;transform:translateY(10px);pointer-events:none;transition:.25s;z-index:50}.toast.show{opacity:1;transform:none}
+@media(max-width:850px){.hero,.grid{grid-template-columns:1fr}.heroPanel{display:none}.resultGrid,.dashboardStats{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.nav{padding:0 4%}.online{display:none}.wrap{width:94%}.card{padding:17px}.resultGrid,.dashboardStats{grid-template-columns:1fr}.reportRow{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<nav class="nav">
+ <div class="brand"><div class="logo">🤖</div><div><b>CivicSathi AI</b><small>AI-powered civic intelligence</small></div></div>
+ <div class="online"><i></i>SYSTEM READY</div>
+</nav>
+
+<main class="wrap">
+<section class="hero">
+ <div>
+  <div class="eyebrow">CIVIC AI • AGENTIC SYSTEM</div>
+  <h1>Make civic problems easier to understand and act on.</h1>
+  <p>CivicSathi turns a citizen's complaint into a structured civic report. It understands common English, Hindi and Hinglish phrases, classifies the issue, estimates priority, recommends a department and explains its decision.</p>
+  <div class="chips"><span class="chip">🧠 NLP</span><span class="chip">📸 Vision-ready</span><span class="chip">🤖 Agent workflow</span><span class="chip">🇮🇳 Hindi + English</span></div>
+ </div>
+ <div class="heroPanel"><div class="icon">🏙️</div><h2>Citizen → AI → Action</h2><p>Everything is contained in this one file. No backend, installation or API key is needed.</p></div>
+</section>
+
+<section class="grid">
+<div class="card">
+ <div class="cardHead"><div><div class="eyebrow">STEP 01</div><h2>Report a civic issue</h2></div><div class="num">1</div></div>
+ <label for="complaint">Describe the problem</label>
+ <textarea id="complaint" placeholder="Example: Road par bahut bada pothole hai school ke paas aur accident ho sakta hai."></textarea>
+ <div class="quick">
+  <button data-text="Road par bahut bada pothole hai school ke paas aur accident ho sakta hai.">🕳️ Pothole</button>
+  <button data-text="Yahan 3 din se kachra pada hai aur bahut smell aa rahi hai.">🗑️ Garbage</button>
+  <button data-text="Street light 5 din se kaam nahi kar rahi.">💡 Streetlight</button>
+  <button data-text="Barish ke baad road par paani bhar gaya hai aur traffic block hai.">💧 Waterlogging</button>
+  <button data-text="Footpath toot gaya hai aur log road par chal rahe hain.">🚶 Footpath</button>
+ </div>
+ <div class="upload">
+  <div class="uploadTop"><div><strong>📸 Photo evidence</strong><small>Image stays in your browser in this demo.</small></div></div>
+  <input id="photo" type="file" accept="image/*">
+  <img id="preview" class="preview" alt="Uploaded civic evidence">
+ </div>
+ <div class="loc">
+  <div><b>📍 Location</b><small id="location">Not added</small></div>
+  <button id="locationBtn" class="btn secondary">Use my location</button>
+ </div>
+ <button id="analyze" class="btn primary">Analyze with CivicSathi AI →</button>
+ <button id="voice" class="btn voice">🎙️ Speak complaint</button>
+ <div id="status" class="status"></div>
+</div>
+
+<div class="card">
+ <div class="cardHead"><div><div class="eyebrow">STEP 02</div><h2>Agentic workflow</h2></div><div class="num">2</div></div>
+ <div class="agents">
+  <div class="agent"><div class="agentDot">1</div><div><b>Intake Agent</b><span>Waiting for citizen input</span></div></div>
+  <div class="agent"><div class="agentDot">2</div><div><b>NLP Classification Agent</b><span>Waiting</span></div></div>
+  <div class="agent"><div class="agentDot">3</div><div><b>Priority Agent</b><span>Waiting</span></div></div>
+  <div class="agent"><div class="agentDot">4</div><div><b>Department Agent</b><span>Waiting</span></div></div>
+  <div class="agent"><div class="agentDot">5</div><div><b>Report Generation Agent</b><span>Waiting</span></div></div>
+ </div>
+</div>
+</section>
+
+<section id="result" class="card result hidden">
+ <div class="cardHead"><div><div class="eyebrow">STEP 03</div><h2>AI-generated civic report</h2></div><span id="priority" class="priority">—</span></div>
+ <div class="resultGrid">
+  <div class="stat"><small>Detected issue</small><b id="issue">—</b></div>
+  <div class="stat"><small>Confidence</small><b id="confidence">—</b></div>
+  <div class="stat"><small>Priority score</small><b id="score">—</b></div>
+  <div class="stat"><small>Recommended department</small><b id="department">—</b></div>
+ </div>
+ <div class="report"><h3>Generated report</h3><p id="generated">—</p><div class="meta"><span id="reportId">ID: —</span><span id="reportLocation">📍 —</span><span id="reportTime">—</span></div></div>
+ <div class="why"><h3>Why this priority?</h3><ul id="reasons"></ul></div>
+</section>
+
+<section class="card dashboard">
+ <div class="cardHead"><div><div class="eyebrow">STEP 04</div><h2>Civic dashboard</h2></div><button id="clear" class="btn secondary">Clear all</button></div>
+ <div class="dashboardStats">
+  <div class="stat"><small>Total reports</small><b id="total">0</b></div>
+  <div class="stat"><small>High priority</small><b id="high">0</b></div>
+  <div class="stat"><small>Medium priority</small><b id="medium">0</b></div>
+  <div class="stat"><small>Pending</small><b id="pending">0</b></div>
+ </div>
+ <div id="reports" class="reports"><p class="empty">No reports yet. Submit your first issue above.</p></div>
+</section>
+
+
+<section class="card" style="margin-top:20px">
+ <div class="cardHead">
+  <div><div class="eyebrow">OFFICIAL SUBMISSION</div><h2>Submit / track on UP Jansunwai</h2></div>
+  <div class="num">5</div>
+ </div>
+ <p style="font-size:12px;color:#596276;line-height:1.7;margin-top:0">
+  CivicSathi prepares your complaint and then opens the official Uttar Pradesh grievance portal.
+  The official portal handles its own OTP/CAPTCHA verification.
+ </p>
+ <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+  <a href="https://jansunwai.up.nic.in/onlineComplaint" target="_blank" rel="noopener"
+     style="text-decoration:none;text-align:center;background:#5c4bdb;color:white;padding:12px;border-radius:12px;font-size:12px;font-weight:800">
+     📤 Open Official Complaint Registration
+  </a>
+  <a href="https://jansunwai.up.nic.in/ComplaintTracker" target="_blank" rel="noopener"
+     style="text-decoration:none;text-align:center;background:#f0f2f7;color:#262b3c;padding:12px;border-radius:12px;font-size:12px;font-weight:800">
+     🔎 Track Official Complaint
+  </a>
+ </div>
+ <div style="margin-top:12px;border:1px solid #e7e9f0;border-radius:14px;padding:13px">
+   <label for="officialId">Official reference / complaint number</label>
+   <input id="officialId" placeholder="Paste the number received from Jansunwai"
+          style="width:100%;border:1px solid #dfe2eb;border-radius:11px;padding:10px;outline:none">
+   <button id="saveOfficial" class="btn primary" style="margin-top:8px">Save reference to dashboard</button>
+   <div id="officialSaved" style="font-size:10px;color:#159766;margin-top:7px"></div>
+ </div>
+</section>
+
+<div class="footer"><b>CivicSathi   </div>
+</main>
+<div id="toast" class="toast"></div>
+
+<script>
+"use strict";
+const $=id=>document.getElementById(id);
+const STORE="civicsathi_final_v1";
+let coords={lat:null,lng:null};
+
+const KEYWORDS={
+ "Pothole / Road Damage":["pothole","potholes","gadda","gaddha","road damage","broken road","road kharab","sadak kharab","sadak toot","crater"],
+ "Garbage / Waste":["garbage","kachra","kachre","waste","dump","dumped","litter","rubbish","dustbin","kachra pada"],
+ "Streetlight":["streetlight","street light","street-light","lamp","light not working","light kharab","road light","bijli ki light"],
+ "Waterlogging / Drainage":["waterlogging","water logging","flood","drainage","drain","paani bhar","pani bhar","sewer","sewage","naali","nali"],
+ "Broken Footpath":["footpath","foot path","sidewalk","pavement","patri toot"],
+ "Fallen Tree":["fallen tree","tree fallen","ped gir","tree down","branch fell"],
+ "Traffic / Road Obstruction":["traffic jam","traffic","jam","obstruction","blocked road","road blocked","encroachment"]
+};
+const DEPT={
+ "Pothole / Road Damage":"Roads / Public Works",
+ "Garbage / Waste":"Municipal Sanitation",
+ "Streetlight":"Electrical / Street Lighting",
+ "Waterlogging / Drainage":"Drainage / Water Department",
+ "Broken Footpath":"Roads / Public Works",
+ "Fallen Tree":"Municipal Emergency / Parks",
+ "Traffic / Road Obstruction":"Traffic / Municipal Enforcement",
+ "Other Civic Issue":"Municipal Help Desk"
+};
+const HIGH=["accident","danger","dangerous","injury","school","hospital","blocked","emergency","flood","major","huge","very big","bahut bada","khatarnak","accident ho sakta","life risk"];
+const ONGOING=["day","days","din","week","weeks","recurring","again","5 din","3 din","many days","months"];
+
+document.querySelectorAll(".quick button").forEach(b=>b.onclick=()=>{$("complaint").value=b.dataset.text;$("complaint").focus()});
+
+$("photo").addEventListener("change",()=>{
+ const f=$("photo").files[0];
+ if(!f){$("preview").style.display="none";return}
+ const reader=new FileReader();
+ reader.onload=e=>{$("preview").src=e.target.result;$("preview").style.display="block"};
+ reader.readAsDataURL(f);
+});
+
+$("locationBtn").onclick=()=>{
+ if(!navigator.geolocation){$("location").textContent="Geolocation is not supported.";return}
+ $("location").textContent="Detecting location…";
+ navigator.geolocation.getCurrentPosition(
+  p=>{coords={lat:p.coords.latitude,lng:p.coords.longitude};$("location").textContent=`${coords.lat.toFixed(5)}, ${coords.lng.toFixed(5)}`;toast("Location added ✓")},
+  ()=>{$("location").textContent="Permission denied / unavailable."}
+ );
+};
+
+function classify(text){
+ let best="Other Civic Issue",bestScore=0;
+ for(const [cat,words] of Object.entries(KEYWORDS)){
+  const score=words.reduce((n,w)=>n+(text.includes(w)?1:0),0);
+  if(score>bestScore){bestScore=score;best=cat}
+ }
+ return {category:best,confidence:bestScore?Math.min(.96,.66+bestScore*.1):.48};
+}
+function calculatePriority(text,category,hasPhoto){
+ let score=30,reasons=[];
+ if(["Pothole / Road Damage","Waterlogging / Drainage","Traffic / Road Obstruction"].includes(category)){
+  score+=18;reasons.push("This issue can affect public movement or road safety.");
+ }
+ const h=HIGH.filter(w=>text.includes(w));
+ if(h.length){score+=Math.min(38,h.length*11);reasons.push("Safety or public-impact language was detected.");}
+ const o=ONGOING.filter(w=>text.includes(w));
+ if(o.length){score+=10;reasons.push("The complaint indicates an ongoing or recurring problem.");}
+ if(hasPhoto){score+=4;reasons.push("Photo evidence was attached to strengthen the report.");}
+ score=Math.min(100,score);
+ const level=score>=75?"HIGH":score>=50?"MEDIUM":"LOW";
+ if(!reasons.length)reasons.push("Priority was estimated from the issue type and the information supplied.");
+ return {score,level,reasons};
+}
+function reports(){try{return JSON.parse(localStorage.getItem(STORE)||"[]")}catch{return[]}}
+function save(rs){localStorage.setItem(STORE,JSON.stringify(rs))}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
+function toast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2200)}
+
+function resetAgents(){
+ document.querySelectorAll(".agent").forEach((a,i)=>{a.className="agent";a.querySelector("span").textContent=i===0?"Waiting for citizen input":"Waiting"});
+}
+async function animateAgents(){
+ resetAgents();
+ const all=[...document.querySelectorAll(".agent")];
+ for(let i=0;i<all.length;i++){
+  if(i){all[i-1].classList.remove("active");all[i-1].classList.add("done");all[i-1].querySelector("span").textContent="Completed ✓"}
+  all[i].classList.add("active");all[i].querySelector("span").textContent="Processing…";
+  await new Promise(r=>setTimeout(r,320));
+ }
+ all.at(-1).classList.remove("active");all.at(-1).classList.add("done");all.at(-1).querySelector("span").textContent="Completed ✓";
+}
+
+function dashboard(){
+ const rs=reports();
+ $("total").textContent=rs.length;
+ $("high").textContent=rs.filter(r=>r.priority==="HIGH").length;
+ $("medium").textContent=rs.filter(r=>r.priority==="MEDIUM").length;
+ $("pending").textContent=rs.filter(r=>r.status==="Pending").length;
+ $("reports").innerHTML=rs.length?rs.slice().reverse().map(r=>`
+  <div class="reportRow">
+   <div><b>${esc(r.issue)}</b><br><span>${esc(r.id)}</span></div>
+   <div><span>${esc(r.department)}</span></div>
+   <div><span>${esc(r.priority)}</span></div>
+   <div><span>${esc(r.status)}</span></div>
+  </div>`).join(""):'<p class="empty">No reports yet. Submit your first issue above.</p>';
+}
+function showResult(r){
+ $("result").classList.remove("hidden");
+ $("issue").textContent=r.issue;$("confidence").textContent=Math.round(r.confidence*100)+"%";
+ $("score").textContent=r.score+"/100";$("department").textContent=r.department;
+ $("priority").textContent=r.priority;$("priority").className="priority "+r.priority.toLowerCase();
+ $("generated").textContent=r.generated;$("reportId").textContent="ID: "+r.id;
+ $("reportLocation").textContent="📍 "+r.location;$("reportTime").textContent=r.time;
+ $("reasons").innerHTML=r.reasons.map(x=>`<li>${esc(x)}</li>`).join("");
+ $("result").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+$("analyze").onclick=async()=>{
+ const raw=$("complaint").value.trim();
+ if(!raw){$("status").textContent="Please describe the civic issue first.";$("status").className="status error";return}
+ $("status").className="status";$("status").textContent="AI agents are analyzing the complaint…";
+ $("analyze").disabled=true;$("analyze").textContent="Analyzing…";
+ await animateAgents();
+ const text=raw.toLowerCase();
+ const c=classify(text);
+ const p=calculatePriority(text,c.category,!!$("photo").files.length);
+ const id="CIV-"+Math.random().toString(36).slice(2,8).toUpperCase();
+ const location=coords.lat?`${coords.lat.toFixed(5)}, ${coords.lng.toFixed(5)}`:"Location not provided";
+ const time=new Date().toLocaleString();
+ const generated=`Citizen reports a ${c.category.toLowerCase()} issue. Reported details: ${raw}. Recommended routing: ${DEPT[c.category]}. Estimated priority: ${p.level}.`;
+ const r={id,issue:c.category,confidence:c.confidence,score:p.score,priority:p.level,department:DEPT[c.category],location,reasons:p.reasons,generated,status:"Pending",time};
+ const rs=reports();rs.push(r);save(rs);
+ showResult(r);dashboard();
+ $("status").textContent="Analysis complete ✓";
+ $("analyze").disabled=false;$("analyze").textContent="Analyze with CivicSathi AI →";
+ toast("Civic report generated ✓");
+};
+
+$("clear").onclick=()=>{
+ if(reports().length && confirm("Delete all saved demo reports?")){localStorage.removeItem(STORE);dashboard();toast("Reports cleared")}
+};
+
+$("voice").onclick=()=>{
+ const Speech=window.SpeechRecognition||window.webkitSpeechRecognition;
+ if(!Speech){$("status").textContent="Speech recognition is not supported here. Please type the complaint.";return}
+ const rec=new Speech();rec.lang="en-IN";rec.interimResults=false;rec.maxAlternatives=1;
+ $("status").textContent="Listening… speak now.";
+ rec.onresult=e=>{$("complaint").value=e.results[0][0].transcript;$("status").textContent="Voice complaint captured ✓";toast("Voice captured")};
+ rec.onerror=()=>{$("status").textContent="Microphone permission or speech recognition is unavailable."};
+ rec.start();
+};
+
+dashboard();
+
+const officialIdEl=document.getElementById("officialId");
+const officialSaved=document.getElementById("officialSaved");
+document.getElementById("saveOfficial").onclick=()=>{
+ const id=officialIdEl.value.trim();
+ if(!id){officialSaved.textContent="Enter the official reference number first.";return}
+ localStorage.setItem("civicsathi_official_reference",id);
+ officialSaved.textContent="Official reference saved ✓";
+ if(typeof toast==="function") toast("Official reference saved");
+};
+const savedOfficial=localStorage.getItem("civicsathi_official_reference");
+if(savedOfficial){officialIdEl.value=savedOfficial;officialSaved.textContent="Saved reference loaded ✓";}
+
+</script>
+</body>
+</html>

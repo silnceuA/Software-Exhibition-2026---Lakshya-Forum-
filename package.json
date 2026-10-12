@@ -1,0 +1,10 @@
+{
+  "name": "civicsathi-ai-project",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Companion files for the original CivicSathi AI HTML project.",
+  "note": "Original index.html is intentionally unchanged. style.css and script.js are reference copies of its inline code and are not linked by index.html.",
+  "scripts": {
+    "start": "npx --yes http-server ."
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "project": "CivicSathi AI",
+  "original_html": "index.html",
+  "original_html_modified": false,
+  "companion_files": {
+    "style.css": "Reference copy of the CSS embedded in index.html.",
+    "script.js": "Reference copy of the JavaScript embedded in index.html.",
+    "package.json": "Project metadata and optional local static-server command."
+  },
+  "important": "The companion CSS and JS files are included for display/reference only. The original HTML does not load them, so its behavior and appearance remain unchanged."
+}
